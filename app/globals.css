@@ -9,7 +9,7 @@
 }
 
 body {
-  @apply bg-[#f4f5f7] text-[#1a2b4c];
+  @apply text-[#1a2b4c];
 }
 
 /* Flight board font effect if possible, else standard mono */

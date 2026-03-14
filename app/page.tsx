@@ -38,6 +38,21 @@ export default function Home() {
               みんなのプランを探す
             </Link>
           </div>
+          
+          {/* Quick Search on Top Page */}
+          <div className="mt-8 max-w-xl mx-auto">
+            <form action="/trips" className="flex items-center bg-white/10 backdrop-blur-md border border-white/20 rounded-full p-2">
+              <input 
+                type="text" 
+                name="q"
+                placeholder="行き先やキーワードで探す..." 
+                className="flex-grow bg-transparent text-white placeholder-blue-200 px-4 py-2 focus:outline-none"
+              />
+              <button type="submit" className="bg-[#FFD166] text-[#1A2B4C] p-3 rounded-full hover:bg-yellow-400 transition-colors">
+                <Search className="w-5 h-5" />
+              </button>
+            </form>
+          </div>
         </div>
       </section>
 

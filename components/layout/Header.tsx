@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Plane, Search, User } from "lucide-react";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 
 export default function Header() {
   return (
@@ -14,10 +15,22 @@ export default function Header() {
             <Search className="w-5 h-5" />
             <span className="hidden sm:inline">探す</span>
           </Link>
-          <Link href="/mypage" className="flex items-center gap-2 hover:text-[#00A4E5] transition-colors">
-            <User className="w-5 h-5" />
-            <span className="hidden sm:inline">マイページ</span>
-          </Link>
+          
+          <SignedIn>
+            <Link href="/mypage" className="flex items-center gap-2 hover:text-[#00A4E5] transition-colors mr-2">
+              <User className="w-5 h-5" />
+              <span className="hidden sm:inline">マイページ</span>
+            </Link>
+            <UserButton afterSignOutUrl="/" />
+          </SignedIn>
+
+          <SignedOut>
+            <SignInButton mode="modal">
+              <button className="bg-[#00A4E5] hover:bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-bold transition-colors">
+                ログイン
+              </button>
+            </SignInButton>
+          </SignedOut>
         </nav>
       </div>
     </header>
