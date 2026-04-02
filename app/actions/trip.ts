@@ -3,6 +3,7 @@
 import { createServiceRoleClient } from '@/lib/supabase/service-role';
 import { ensureSupabaseUser } from '@/lib/supabase/auth-helpers';
 import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 
 export async function createTripAction(formData: FormData) {
   // 1. 現在のユーザーを取得
@@ -139,5 +140,28 @@ export async function updateTripAction(formData: FormData) {
 
   // 編集ページへリダイレクト（更新を反映するため）
   redirect(`/trips/${tripId}/edit`);
+}
+
+export async function deleteTripAction(tripId: string) {
+  const user = await ensureSupabaseUser();
+  
+  if (!user) {
+    throw new Error('User not found. Please log in.');
+  }
+
+  const supabase = createServiceRoleClient();
+  const { error } = await supabase
+    .from('trips')
+    .delete()
+    .eq('id', tripId)
+    .eq('user_id', user.id); // セキュリティのため、作成者本人のみ削除可能とする
+
+  if (error) {
+    console.error('Error deleting trip:', error);
+    throw new Error('Failed to delete trip');
+  }
+
+  revalidatePath('/mypage');
+  revalidatePath('/trips');
 }
 

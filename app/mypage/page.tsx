@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Plane, Star, Map, Edit, CheckCircle } from "lucide-react";
 import { ensureSupabaseUser } from "@/lib/supabase/auth-helpers";
 import { createServiceRoleClient } from "@/lib/supabase/service-role";
+import { DeleteTripButton } from "@/components/ui/DeleteTripButton";
 
 export default async function MyPage({ searchParams }: { searchParams: Promise<{ tab?: string }> }) {
   const user = await ensureSupabaseUser();
@@ -127,6 +128,11 @@ export default async function MyPage({ searchParams }: { searchParams: Promise<{
                 {trip.is_public ? <CheckCircle className="w-3 h-3 text-green-500" /> : <Edit className="w-3 h-3 text-gray-500" />}
                 {trip.is_public ? "旅行済・公開中" : "計画中・非公開"}
               </div>
+              
+              {/* 作成したプランタブの場合のみ削除ボタンを表示 */}
+              {currentTab === 'my_trips' && (
+                <DeleteTripButton tripId={trip.id} />
+              )}
             </div>
             
             <div className="p-5 flex-grow flex flex-col">
